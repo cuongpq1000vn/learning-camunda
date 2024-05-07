@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0fr9mxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.17.0">
-  <bpmn:process id="auto-audit-process" isExecutable="true" camunda:historyTimeToLive="180">
+  <bpmn:process id="auto-audit-process" name="Agile Auto Audit" isExecutable="true" camunda:historyTimeToLive="180">
     <bpmn:startEvent id="StartEvent_1" name="Start Auditing">
       <bpmn:outgoing>Flow_0qvbcyt</bpmn:outgoing>
     </bpmn:startEvent>
@@ -51,18 +51,10 @@
       <bpmn:incoming>Flow_095dpce</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_095dpce" sourceRef="Activity_144dvvb" targetRef="Event_0qs2q7o" />
-    <bpmn:intermediateCatchEvent id="Event_076nxod" name="24 hours">
-      <bpmn:incoming>Flow_1a05nia</bpmn:incoming>
-      <bpmn:outgoing>Flow_1u7cbxv</bpmn:outgoing>
-      <bpmn:timerEventDefinition id="TimerEventDefinition_0c9yp4j">
-        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">R/P1D</bpmn:timeCycle>
-      </bpmn:timerEventDefinition>
-    </bpmn:intermediateCatchEvent>
     <bpmn:sequenceFlow id="Flow_1a05nia" name="No" sourceRef="Gateway_0g675y0" targetRef="Event_076nxod">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{auditeeSubmitted == 'No'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0qvbcyt" sourceRef="StartEvent_1" targetRef="say-hello" />
-    <bpmn:sequenceFlow id="Flow_1u7cbxv" sourceRef="Event_076nxod" targetRef="say-hello" />
     <bpmn:intermediateCatchEvent id="Event_1m0ce71" name="24 hours">
       <bpmn:incoming>Flow_00auuj0</bpmn:incoming>
       <bpmn:outgoing>Flow_1c9392b</bpmn:outgoing>
@@ -74,6 +66,14 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{managerSubmitted == 'No'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1c9392b" sourceRef="Event_1m0ce71" targetRef="Activity_12kbtxq" />
+    <bpmn:intermediateCatchEvent id="Event_076nxod" name="24 hours">
+      <bpmn:incoming>Flow_1a05nia</bpmn:incoming>
+      <bpmn:outgoing>Flow_1u7cbxv</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0c9yp4j">
+        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">R/P1D</bpmn:timeCycle>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_1u7cbxv" sourceRef="Event_076nxod" targetRef="say-hello" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="auto-audit-process">
